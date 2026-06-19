@@ -1,0 +1,17 @@
+CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+
+The data in this repository (the generated datasets, e.g. municipalities/municipalities.yaml)
+is dedicated to the public domain under CC0 1.0 Universal.
+
+To the extent possible under law, the authors have waived all copyright and related
+or neighboring rights to this dataset.
+
+Full legal text: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+Summary:         https://creativecommons.org/publicdomain/zero/1.0/
+
+Sources (their own terms apply to the originals):
+- Japan Post "Postal code data (romaji)" KEN_ALL_ROME (redistribution permitted)
+- code4fukui/localgovjp (CC0; source: Geospatial Information Authority of Japan)
+- JPRS WHOIS (public domain registration information)
+
+Note: finalize this file with the full CC0 1.0 legal text before publishing if required.
