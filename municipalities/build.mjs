@@ -1,5 +1,5 @@
 // 自治体レジストリ生成ツール (手動実行)。
-//   node tools/municipalities/build.mjs
+//   node municipalities/build.mjs
 // design: docs/superpowers/specs/2026-06-18-municipality-registry-design.md
 //
 // 方針 (確定): handle の権威は lg.jp ドメインのみ。
@@ -157,7 +157,7 @@ for (const r of pref.slice(1)) {
   const pid = Number(r[0]);
   if (!(pid in TARGET_PREFS)) continue;
   const label = r[5].toLowerCase(); // pref_en (Saitama→saitama, Hokkaido→hokkaido)。pref.X.lg.jp は実在前提
-  entries.push({ code: String(pid).padStart(2, '0') + '000', handle: label + TYPE_SUFFIX.pref, name_ja: r[1], yomi: r[2], type: 'pref', lat: Number(r[11]), lng: Number(r[12]) });
+  entries.push({ code: String(pid).padStart(2, '0') + '000', handle: label + TYPE_SUFFIX.pref, name_ja: r[1], yomi: r[2], type: 'pref', lat: Number(r[11]), lng: Number(r[12]), website: r[7]?.trim() || null });
 }
 
 // 市区町村エントリ
@@ -171,7 +171,7 @@ for (const r of muni.slice(1)) {
   if (!type) { excluded.push(`${name} (種別不明)`); continue; }
   const label = await resolveLgLabel({ name, prefKanji: r[1], type, url: r[7] });
   if (!label) { excluded.push(`${r[1]} ${name} (lg.jp 確認できず, website=${r[7]})`); continue; }
-  entries.push({ code: String(r[2]).padStart(5, '0'), handle: label + TYPE_SUFFIX[type], name_ja: name, yomi: r[4], type, lat: Number(r[5]), lng: Number(r[6]) });
+  entries.push({ code: String(r[2]).padStart(5, '0'), handle: label + TYPE_SUFFIX[type], name_ja: name, yomi: r[4], type, lat: Number(r[5]), lng: Number(r[6]), website: r[7]?.trim() || null });
   if (entries.length % 25 === 0) console.error(`進捗: 登録 ${entries.length} / 対象外 ${excluded.length} / WHOIS ${whoisCount} 回`);
 }
 
@@ -183,8 +183,8 @@ for (const e of entries) {
 }
 
 entries.sort((a, b) => a.code.localeCompare(b.code));
-const fmt = (e) => `- code: "${e.code}"\n  handle: ${e.handle}\n  name_ja: ${e.name_ja}\n  yomi: "${e.yomi}"\n  type: ${e.type}\n  lat: ${e.lat}\n  lng: ${e.lng}\n`;
-const header = `# 自動生成: tools/municipalities/build.mjs\n# 権威=lg.jp(JPRS WHOIS 確認)。綴り参考=日本郵便 KEN_ALL_ROME。code/座標/website=code4fukui/localgovjp,prefjp(CC0)\n# 手で編集しない。再生成: node tools/municipalities/build.mjs\n`;
+const fmt = (e) => `- code: "${e.code}"\n  handle: ${e.handle}\n  name_ja: ${e.name_ja}\n  yomi: "${e.yomi}"\n  type: ${e.type}\n  lat: ${e.lat}\n  lng: ${e.lng}\n  website: ${e.website === null ? 'null' : JSON.stringify(e.website)}\n`;
+const header = `# 自動生成: municipalities/build.mjs\n# 権威=lg.jp(JPRS WHOIS 確認)。綴り参考=日本郵便 KEN_ALL_ROME。code/座標/website=code4fukui/localgovjp,prefjp(CC0)\n# 手で編集しない。再生成: node municipalities/build.mjs\n`;
 writeFileSync(OUT_FILE, header + entries.map(fmt).join(''));
 
 console.log(`municipalities.yaml: ${entries.length} 件 (政令市区を除外: ${skippedWard}, WHOIS: ${whoisCount} 回)`);

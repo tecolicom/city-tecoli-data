@@ -13,7 +13,7 @@
 
 | ファイル | 内容 |
 |---|---|
-| `municipalities.yaml` | 生成物。`code`(団体コード) / `handle` / `name_ja` / `yomi` / `type` / `lat` / `lng` |
+| `municipalities.yaml` | 生成物。`code`(団体コード) / `handle` / `name_ja` / `yomi` / `type` / `lat` / `lng` / `website`(公式サイト URL。出典に無ければ `null`) |
 | `build.mjs` | 生成ツール（Node, `unzip`・`whois` を使う）。`node municipalities/build.mjs` |
 | `whois-cache.json` | JPRS WHOIS の確定結果キャッシュ（再生成を高速・再現可能に） |
 
