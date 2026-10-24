@@ -10,7 +10,7 @@
 
 **Spec:** `docs/superpowers/specs/2026-10-23-public-information-usability-index-design.md`
 
-**repo 名:** `japan-public-data-index` (設計者判断。公開前の改名は安い)
+**repo 名:** `japan-city-data-usability` (設計者判断。公開前の改名は安い)
 
 ## Global Constraints
 
